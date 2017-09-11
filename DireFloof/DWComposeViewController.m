@@ -641,21 +641,18 @@ static NSInteger mediaUploadLimit = 4;
     self.contentWarningSwitch.on = NO;
     self.sensitiveMediaSwitch.on = NO;
     
-    if ([[DWSettingStore sharedStore] alwaysPrivate]) {
-        self.privacyState = MS_VISIBILITY_TYPE_PRIVATE;
-    }
-    else if (![[DWSettingStore sharedStore] alwaysPublic])
-    {
-        self.privacyState = MS_VISIBILITY_TYPE_UNLISTED;
-    }
-    else
+    if ([[DWSettingStore sharedStore] alwaysPublic])
     {
         self.privacyState = MS_VISIBILITY_TYPE_PUBLIC;
     }
-    
-    if (currentUser.locked) {
+    else if ([[DWSettingStore sharedStore] alwaysPrivate] || currentUser.locked) {
         self.privacyState = MS_VISIBILITY_TYPE_PRIVATE;
     }
+    else
+    {
+        self.privacyState = MS_VISIBILITY_TYPE_UNLISTED;
+    }
+    
     
     self.image1.superview.hidden = YES;
     self.image2.superview.hidden = YES;
